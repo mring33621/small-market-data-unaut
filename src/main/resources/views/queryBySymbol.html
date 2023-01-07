@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>NASDAQ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/static/pure-min.css">
+</head>
+
+<body>
+<table class="pure-table pure-table-horizontal">
+    <thead>
+    <tr>
+        <th>Symbol</th><th>Date</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th>
+    </tr>
+    </thead>
+    <tr th:each="point : ${points}">
+        <td th:text="${point.symbol}"></td>
+        <td th:text="${point.date}"></td>
+        <td th:text="${point.open}"></td>
+        <td th:text="${point.high}"></td>
+        <td th:text="${point.low}"></td>
+        <td th:text="${point.close}"></td>
+        <td th:text="${point.volume}"></td>
+    </tr>
+</table>
+
+</body>
+
+</html>
