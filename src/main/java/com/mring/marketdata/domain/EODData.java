@@ -1,4 +1,4 @@
-package com.mring.marketdata;
+package com.mring.marketdata.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

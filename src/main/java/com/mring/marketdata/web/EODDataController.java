@@ -1,5 +1,8 @@
-package com.mring.marketdata;
+package com.mring.marketdata.web;
 
+import com.mring.marketdata.domain.EODData;
+import com.mring.marketdata.domain.EODPoint;
+import com.mring.marketdata.domain.EODPointWebTableRow;
 import io.micronaut.core.annotation.Nullable;
 import io.micronaut.core.util.CollectionUtils;
 import io.micronaut.core.util.StringUtils;
@@ -45,10 +48,12 @@ public class EODDataController {
     @Get("/queryBySymbol.html")
     public HttpResponse queryBySymbolReturnsHtml(@Nullable @QueryValue("symbol") String symbol) {
         final Optional<Table> results = queryBySymbol(symbol);
-        final List<EODPoint> points = new LinkedList<>();
+        final List<EODPointWebTableRow> webTableRows = new LinkedList<>();
         if (results.isPresent()) {
+            EODPointWebTableRow firstRowOfGroup = null;
+            int numRowsInGroup = 1;
             for (Row row : results.get()) {
-                EODPoint point = new EODPoint(
+                final EODPoint currentPoint = new EODPoint(
                         row.getString(0),
                         row.getDate(1),
                         row.getDouble(2),
@@ -56,9 +61,27 @@ public class EODDataController {
                         row.getDouble(4),
                         row.getDouble(5),
                         row.getInt(6));
-                points.add(point);
+                final EODPointWebTableRow currentRow = new EODPointWebTableRow(currentPoint);
+                webTableRows.add(currentRow);
+                if (firstRowOfGroup == null) {
+                    firstRowOfGroup = currentRow;
+                    firstRowOfGroup.setFirstRow(true);
+                } else {
+                    if (firstRowOfGroup.getSymbol().equals(currentRow.getSymbol())) {
+                        numRowsInGroup++;
+                    } else {
+                        firstRowOfGroup.setRowsInGroup(numRowsInGroup);
+                        numRowsInGroup = 1;
+                        firstRowOfGroup = currentRow;
+                        firstRowOfGroup.setFirstRow(true);
+                    }
+                }
+            }
+            // in case there was only 1 group
+            if (firstRowOfGroup != null) {
+                firstRowOfGroup.setRowsInGroup(numRowsInGroup);
             }
         }
-        return HttpResponse.ok(CollectionUtils.mapOf("points", points));
+        return HttpResponse.ok(CollectionUtils.mapOf("webTableRows", webTableRows));
     }
 }
