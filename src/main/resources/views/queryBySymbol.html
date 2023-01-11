@@ -6,6 +6,7 @@
     <title>NASDAQ</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="/static/pure-min.css">
+    <script src="https://cdn.plot.ly/plotly-2.16.1.min.js"></script>
 </head>
 
 <body>
@@ -23,9 +24,29 @@
         <td th:text="${webTableRow.eodPoint.low}"></td>
         <td th:text="${webTableRow.eodPoint.close}"></td>
         <td th:text="${webTableRow.eodPoint.volume}"></td>
-        <td th:if="${webTableRow.firstRow}" th:attr="rowspan=${webTableRow.rowsInGroup}">Graph goes here</td>
+        <td th:if="${webTableRow.firstRow}" th:attr="rowspan=${webTableRow.rowsInGroup}">
+            <div th:attr="id=${webTableRow.eodPoint.symbol}+'-graph'" style="width:600px;height:250px;"></div>
+        </td>
     </tr>
 </table>
+
+<script th:inline="javascript">
+    let graphElement;
+    let rawGraphSpec;
+    let parsedGraphSpec;
+    [# th:each="webTableRow : ${webTableRows}"]
+      [# th:if="${webTableRow.firstRow}"]
+        graphElement = document.getElementById([[${webTableRow.eodPoint.symbol}]]+'-graph');
+        rawGraphSpec = [[${webTableRow.getCandlestickData().toString()}]];
+        parsedGraphSpec = JSON.parse(rawGraphSpec);
+        console.log(parsedGraphSpec);
+        Plotly.newPlot(
+            graphElement,
+            [parsedGraphSpec],
+            { margin: { t: 0 } } );
+      [/]
+    [/]
+</script>
 
 </body>
 

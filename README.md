@@ -3,14 +3,18 @@
 1) Gradle
 2) Micronaut
 3) Tablesaw
-3) Java 17
-4) Maybe some htmx + thymeleaf
+4) Java 17
+5) Maybe some htmx + thymeleaf
 
 ### Endpoints
 #### GET
 1) /eoddata/head -- returns 10 rows of EOD NASDAQ Data
 2) /eoddata/queryBySymbol.txt?symbol=EBAY -- returns rows of EOD NASDAQ Data for the given symbol as text
 3) /eoddata/queryBySymbol.html?symbol=EBAY -- returns rows of EOD NASDAQ Data for the given symbol as HTML
+
+### HTML output now includes candlestick charts, courtesy of plotly!
+
+![sample of html output](sample.png)
 
 ## Micronaut 3.7.5 Documentation
 

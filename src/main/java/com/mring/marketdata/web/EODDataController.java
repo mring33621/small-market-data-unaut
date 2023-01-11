@@ -1,5 +1,6 @@
 package com.mring.marketdata.web;
 
+import com.mring.marketdata.domain.CandlestickData;
 import com.mring.marketdata.domain.EODData;
 import com.mring.marketdata.domain.EODPoint;
 import com.mring.marketdata.domain.EODPointWebTableRow;
@@ -52,6 +53,7 @@ public class EODDataController {
         if (results.isPresent()) {
             EODPointWebTableRow firstRowOfGroup = null;
             int numRowsInGroup = 1;
+            // NOTE: i'm prioritizing performance, not code cleanliness here
             for (Row row : results.get()) {
                 final EODPoint currentPoint = new EODPoint(
                         row.getString(0),
@@ -76,6 +78,7 @@ public class EODDataController {
                         firstRowOfGroup.setFirstRow(true);
                     }
                 }
+                firstRowOfGroup.getCandlestickData().add(currentPoint);
             }
             // in case there was only 1 group
             if (firstRowOfGroup != null) {
