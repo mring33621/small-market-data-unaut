@@ -1,10 +1,16 @@
 package com.mring.marketdata.domain;
 
+import com.google.gson.Gson;
+
 public class EODPointWebTableRow {
+
+    private static final Gson GSON = new Gson();
+
     private final EODPoint eodPoint;
     private int rowsInGroup;
     private boolean firstRow;
     private CandlestickData candlestickData;
+    private VolumeChartData volumeChartData;
 
     public EODPointWebTableRow(EODPoint eodPoint) {
         this.eodPoint = eodPoint;
@@ -30,6 +36,7 @@ public class EODPointWebTableRow {
         this.firstRow = firstRow;
         if (firstRow) {
             this.candlestickData = new CandlestickData();
+            this.volumeChartData = new VolumeChartData();
         }
     }
 
@@ -39,5 +46,13 @@ public class EODPointWebTableRow {
 
     public CandlestickData getCandlestickData() {
         return candlestickData;
+    }
+
+    public VolumeChartData getVolumeChartData() {
+        return volumeChartData;
+    }
+
+    public String toChartJson() {
+        return GSON.toJson(new Object[] {candlestickData, volumeChartData});
     }
 }

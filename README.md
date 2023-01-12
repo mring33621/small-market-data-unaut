@@ -1,10 +1,11 @@
 ## Small Market Data Server
 ### Goal: To learn a little about...
-1) Gradle
-2) Micronaut
-3) Tablesaw
-4) Java 17
-5) Maybe some htmx + thymeleaf
+1) Gradle (alternative to maven for building Java projects)
+2) Micronaut (alternative to Spring Boot)
+3) Tablesaw (Dataframes for Java)
+4) Thymeleaf (Server-side view/html templates)
+5) Plotly (Javascript graphing/charting library)
+6) Java 17
 
 ### Endpoints
 #### GET
@@ -12,7 +13,7 @@
 2) /eoddata/queryBySymbol.txt?symbol=EBAY -- returns rows of EOD NASDAQ Data for the given symbol as text
 3) /eoddata/queryBySymbol.html?symbol=EBAY -- returns rows of EOD NASDAQ Data for the given symbol as HTML
 
-### HTML output now includes candlestick charts, courtesy of plotly!
+### HTML output now includes candlestick and volume charts, courtesy of plotly!
 
 ![sample of html output](sample.png)
 

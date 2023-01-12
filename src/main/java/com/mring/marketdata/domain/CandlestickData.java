@@ -9,6 +9,7 @@ public class CandlestickData {
     private static final Gson GSON = new Gson();
 
     public final String type = "candlestick";
+    public final String name = "price OHLC";
     public final List<String> x = new LinkedList<>();
     public final List<Double> open = new LinkedList<>();
     public final List<Double> high = new LinkedList<>();

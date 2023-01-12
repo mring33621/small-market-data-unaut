@@ -13,7 +13,7 @@
 <table class="pure-table pure-table-horizontal">
     <thead>
     <tr>
-        <th>Symbol</th><th>Date</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th><th>Graph</th>
+        <th>Symbol</th><th>Date</th><th>Open</th><th>High</th><th>Low</th><th>Close</th><th>Volume</th><th>Charts</th>
     </tr>
     </thead>
     <tr th:each="webTableRow : ${webTableRows}">
@@ -25,7 +25,7 @@
         <td th:text="${webTableRow.eodPoint.close}"></td>
         <td th:text="${webTableRow.eodPoint.volume}"></td>
         <td th:if="${webTableRow.firstRow}" th:attr="rowspan=${webTableRow.rowsInGroup}">
-            <div th:attr="id=${webTableRow.eodPoint.symbol}+'-graph'" style="width:600px;height:250px;"></div>
+            <div th:attr="id=${webTableRow.eodPoint.symbol}+'-graph'" style="width:600px;height:500px;"></div>
         </td>
     </tr>
 </table>
@@ -34,16 +34,29 @@
     let graphElement;
     let rawGraphSpec;
     let parsedGraphSpec;
+    const layout = {
+        grid: {
+            rows: 2,
+            columns: 1,
+            pattern: 'independent',
+            roworder: 'top to bottom'},
+        xaxis: {
+            rangeslider: {
+                visible: false
+            }
+        }
+    };
     [# th:each="webTableRow : ${webTableRows}"]
       [# th:if="${webTableRow.firstRow}"]
         graphElement = document.getElementById([[${webTableRow.eodPoint.symbol}]]+'-graph');
-        rawGraphSpec = [[${webTableRow.getCandlestickData().toString()}]];
+        rawGraphSpec = [[${webTableRow.toChartJson()}]];
         parsedGraphSpec = JSON.parse(rawGraphSpec);
         console.log(parsedGraphSpec);
         Plotly.newPlot(
             graphElement,
-            [parsedGraphSpec],
-            { margin: { t: 0 } } );
+            parsedGraphSpec,
+            layout
+        );
       [/]
     [/]
 </script>

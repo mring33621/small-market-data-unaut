@@ -79,6 +79,7 @@ public class EODDataController {
                     }
                 }
                 firstRowOfGroup.getCandlestickData().add(currentPoint);
+                firstRowOfGroup.getVolumeChartData().add(currentPoint);
             }
             // in case there was only 1 group
             if (firstRowOfGroup != null) {
