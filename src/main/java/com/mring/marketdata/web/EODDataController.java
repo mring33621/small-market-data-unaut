@@ -1,6 +1,5 @@
 package com.mring.marketdata.web;
 
-import com.mring.marketdata.domain.CandlestickData;
 import com.mring.marketdata.domain.EODData;
 import com.mring.marketdata.domain.EODPoint;
 import com.mring.marketdata.domain.EODPointWebTableRow;
@@ -78,8 +77,7 @@ public class EODDataController {
                         firstRowOfGroup.setFirstRow(true);
                     }
                 }
-                firstRowOfGroup.getCandlestickData().add(currentPoint);
-                firstRowOfGroup.getVolumeChartData().add(currentPoint);
+                firstRowOfGroup.addToCharts(currentPoint);
             }
             // in case there was only 1 group
             if (firstRowOfGroup != null) {

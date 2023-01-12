@@ -44,12 +44,9 @@ public class EODPointWebTableRow {
         return eodPoint.symbol();
     }
 
-    public CandlestickData getCandlestickData() {
-        return candlestickData;
-    }
-
-    public VolumeChartData getVolumeChartData() {
-        return volumeChartData;
+    public void addToCharts(EODPoint point) {
+        this.candlestickData.add(point);
+        this.volumeChartData.add(point);
     }
 
     public String toChartJson() {
