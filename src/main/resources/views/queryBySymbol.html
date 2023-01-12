@@ -10,6 +10,12 @@
 </head>
 
 <body>
+<form class="pure-form" action="queryBySymbol.html" method="get">
+    <fieldset>
+        <input type="text" placeholder="Symbol (like EBAY)" name="symbol" id="searchInput" />
+        <button type="submit" class="pure-button pure-button-primary">Search</button>
+    </fieldset>
+</form>
 <table class="pure-table pure-table-horizontal">
     <thead>
     <tr>
@@ -31,6 +37,15 @@
 </table>
 
 <script th:inline="javascript">
+
+    // maintain the last value in the searchInput
+    const params = new URL(location.href).searchParams;
+    const searchTerm = params.get("symbol");
+    document.getElementById("searchInput").value = searchTerm;
+
+    //
+    // make the charts
+    //
     let graphElement;
     let rawGraphSpec;
     let parsedGraphSpec;
